@@ -1,0 +1,79 @@
+name: Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platforms;android-35 build-tools;35.0.0'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - name: Build debug APK
+        if: startsWith(github.ref, 'refs/tags/') == false
+        env:
+          APP_VERSION_CODE: ${{ github.run_number }}
+          APP_VERSION_NAME: 0.1.0-debug.${{ github.run_number }}
+        run: gradle --no-daemon :app:assembleDebug
+      - name: Build signed release APK
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          APP_VERSION_CODE: ${{ github.run_number }}
+          APP_VERSION_NAME: ${{ github.ref_name }}
+        run: |
+          test -n "$ANDROID_KEYSTORE_BASE64" || { echo 'ANDROID_KEYSTORE_BASE64 is required for a tag release.'; exit 1; }
+          test -n "$ANDROID_KEYSTORE_PASSWORD" || { echo 'ANDROID_KEYSTORE_PASSWORD is required for a tag release.'; exit 1; }
+          test -n "$ANDROID_KEY_ALIAS" || { echo 'ANDROID_KEY_ALIAS is required for a tag release.'; exit 1; }
+          test -n "$ANDROID_KEY_PASSWORD" || { echo 'ANDROID_KEY_PASSWORD is required for a tag release.'; exit 1; }
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/alya-release.keystore"
+          export ANDROID_KEYSTORE_PATH="$RUNNER_TEMP/alya-release.keystore"
+          gradle --no-daemon :app:assembleRelease
+      - name: Verify APK artifact
+        id: artifact
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            apk='app/build/outputs/apk/release/app-release.apk'
+          else
+            apk='app/build/outputs/apk/debug/app-debug.apk'
+          fi
+          test -s "$apk" || { echo "APK missing or empty: $apk"; exit 1; }
+          echo "path=$apk" >> "$GITHUB_OUTPUT"
+          sha256sum "$apk"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$apk" > "$RUNNER_TEMP/badging.txt"
+          head -n 1 "$RUNNER_TEMP/badging.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: alya-${{ startsWith(github.ref, 'refs/tags/') && 'release' || 'debug' }}-apk
+          path: ${{ steps.artifact.outputs.path }}
+          if-no-files-found: error
+      - name: Publish GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.artifact.outputs.path }}
+          generate_release_notes: true

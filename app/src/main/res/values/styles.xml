@@ -1,0 +1,18 @@
+<resources>
+    <string name="accessibility_service_description">Allows Alya to read visible non-password text or click a matching visible control only when you explicitly request that action.</string>
+    <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">#52765D</item>
+        <item name="android:statusBarColor">#F8F8F5</item>
+        <item name="android:navigationBarColor">#F8F8F5</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
+    <style name="DarkTheme" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">#B3D3BF</item>
+        <item name="android:statusBarColor">#202724</item>
+        <item name="android:navigationBarColor">#202724</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

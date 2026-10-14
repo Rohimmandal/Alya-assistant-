@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap');
+
+:root {
+  font-family: 'DM Sans', sans-serif;
+  color: #25302d;
+  background: #f8f8f5;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --paper: #f8f8f5;
+  --surface: #fff;
+  --ink: #25302d;
+  --muted: #818b85;
+  --line: #e7e9e3;
+  --mint: #cee5d9;
+  --deep-green: #244438;
+  --coral: #d9785f;
+  --soft-green: #eff5ef;
+  --shadow: 0 14px 45px #303c3010;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #202724;
+  --surface: #282f2b;
+  --ink: #e8eee9;
+  --muted: #a0aaa4;
+  --line: #3b4540;
+  --mint: #384a40;
+  --deep-green: #b3d3bf;
+  --coral: #eb947b;
+  --soft-green: #303d35;
+  --shadow: 0 14px 45px #0004;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--paper); color: var(--ink); }
+button, input, textarea, select { font: inherit; }
+button { color: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid #d9785f88; outline-offset: 2px; }
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; max-width: 1600px; margin: 0 auto; }
+.topbar { height: 72px; display: flex; align-items: center; padding: 0 4.2%; border-bottom: 1px solid var(--line); gap: 70px; flex-shrink: 0; }
+.brand { text-decoration: none; color: var(--ink); display: flex; align-items: center; gap: 10px; }
+.brand-mark { width: 33px; height: 33px; border: 1px solid #bbd3c4; color: #49735b; display: grid; place-items: center; border-radius: 11px 11px 11px 4px; background: var(--soft-green); }
+.brand-name { font-size: 21px; font-weight: 650; letter-spacing: 0; }.brand-name span { color: var(--coral); }
+.primary-nav { display: flex; height: 100%; align-items: center; gap: 35px; }
+.nav-link { align-self: stretch; position: relative; border: 0; background: transparent; color: var(--muted); cursor: pointer; padding: 0 1px; font-size: 13px; font-weight: 550; }
+.nav-link:hover, .nav-link.active { color: var(--ink); }
+.nav-link.active::after { content: ''; position: absolute; height: 2px; background: var(--coral); bottom: 0; left: 0; right: 0; }
+.topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 20px; }
+.privacy-indicator, .composer-foot span, .settings-footer > span { display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; }
+.privacy-indicator svg { color: #78917d; }
+.icon-button { width: 37px; height: 37px; border: 1px solid transparent; border-radius: 10px; background: transparent; color: var(--muted); display: inline-grid; place-items: center; cursor: pointer; flex-shrink: 0; }
+.icon-button:hover { border-color: var(--line); background: var(--surface); color: var(--ink); }
+.small-icon { width: 30px; height: 30px; }
+.workspace { flex: 1; min-height: 560px; display: grid; grid-template-columns: 254px minmax(0, 1fr); max-height: calc(100vh - 113px); }
+.conversation-rail { display: flex; flex-direction: column; padding: 29px 18px 18px 27px; border-right: 1px solid var(--line); min-height: 0; }
+.rail-heading { display: flex; align-items: center; justify-content: space-between; padding: 0 4px; color: var(--muted); font-size: 10px; font-weight: 650; }
+.new-chat-button { display: flex; align-items: center; gap: 9px; height: 42px; margin-top: 16px; padding: 0 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); cursor: pointer; font-size: 12px; color: var(--ink); text-align: left; }
+.new-chat-button:hover { border-color: #b6cec0; }
+.new-chat-button svg { color: #64816c; }
+.conversation-list { overflow: auto; margin-top: 20px; flex: 1; }
+.rail-empty { color: var(--muted); font-size: 11px; line-height: 1.7; padding: 0 5px; }
+.conversation-row { display: flex; align-items: center; position: relative; min-height: 38px; border-radius: 7px; }
+.conversation-row:hover, .conversation-row.selected { background: var(--soft-green); }
+.conversation-open { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: left; border: 0; background: transparent; padding: 9px 2px 9px 9px; flex: 1; min-width: 0; cursor: pointer; color: var(--muted); font-size: 11px; }
+.conversation-row.selected .conversation-open { color: var(--ink); }
+.conversation-menu { position: relative; flex-shrink: 0; }
+.conversation-menu summary { list-style: none; display: grid; place-items: center; width: 28px; height: 28px; color: var(--muted); cursor: pointer; }
+.conversation-menu summary::-webkit-details-marker { display: none; }
+.menu-popover { z-index: 5; position: absolute; right: 3px; top: 26px; width: 114px; padding: 4px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); box-shadow: var(--shadow); }
+.menu-popover button { width: 100%; text-align: left; padding: 8px; border: 0; border-radius: 5px; background: transparent; font-size: 11px; cursor: pointer; }
+.menu-popover button:hover { background: var(--soft-green); }
+.rail-footer { border-top: 1px solid var(--line); padding: 14px 3px 0; display: flex; align-items: center; flex-wrap: wrap; gap: 7px; font-size: 9px; color: var(--muted); }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: #7faa83; display: inline-block; }
+.text-button { border: 0; background: transparent; color: var(--muted); font-size: 10px; padding: 3px; cursor: pointer; }
+.text-button:hover { color: var(--coral); }
+.rail-footer .text-button { margin-left: auto; }
+.chat-column { display: flex; flex-direction: column; min-width: 0; position: relative; }
+.chat-header { height: 70px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; padding: 0 4%; }
+.chat-title-wrap { display: flex; align-items: center; gap: 11px; }
+.assistant-avatar, .message-avatar { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; color: #587861; background: var(--mint); }
+.chat-title-wrap h1 { margin: 0; font-size: 13px; font-weight: 650; }
+.chat-title-wrap p { margin: 4px 0 0; color: var(--muted); font-size: 10px; }
+.chat-tools { display: flex; align-items: center; gap: 10px; }
+.language-chip { display: flex; gap: 6px; align-items: center; background: var(--soft-green); color: #67816e; padding: 7px 9px; border-radius: 7px; font-size: 10px; }
+.message-scroll { flex: 1; overflow: auto; min-height: 0; padding: 30px clamp(20px, 8vw, 120px) 28px; }
+.welcome-block { max-width: 610px; margin: max(38px, 9vh) auto 20px; text-align: center; animation: arrive .55s ease both; }
+.welcome-orbit { width: 52px; height: 52px; border: 1px solid #d9e5da; background: var(--soft-green); border-radius: 50%; display: grid; place-items: center; color: #65866b; margin: 0 auto 23px; }
+.eyebrow { font-size: 9px; font-weight: 650; color: #889588; margin: 0 0 12px; }
+.welcome-block h2, .download-copy h1, .android-hero h1 { font-family: 'Fraunces', Georgia, serif; font-weight: 500; letter-spacing: 0; }
+.welcome-block h2 { font-size: clamp(31px, 4vw, 43px); line-height: 1.12; margin: 0; }
+.welcome-block h2 span { color: var(--coral); }
+.welcome-copy { margin: 13px 0 17px; line-height: 1.8; color: var(--muted); font-size: 12px; }
+.setup-note { border: 1px solid var(--line); border-radius: 8px; padding: 8px 11px; background: var(--surface); color: var(--muted); font-size: 10px; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; }
+.setup-note:hover { color: var(--ink); }
+.messages { max-width: 770px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+.message { display: flex; align-items: flex-start; gap: 10px; animation: arrive .25s ease both; }
+.message.user { justify-content: flex-end; }
+.message-avatar { width: 26px; height: 26px; }
+.message-content { position: relative; max-width: min(80%, 620px); border-radius: 12px; padding: 12px 15px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 3px 12px #3b483509; }
+.message.user .message-content { border-color: transparent; background: var(--soft-green); border-radius: 12px 12px 3px 12px; }
+.message-content p { margin: 0; line-height: 1.7; font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.message-audio { display: inline-grid; place-items: center; margin: 7px 0 -5px -5px; border: 0; width: 25px; height: 25px; background: transparent; color: var(--muted); cursor: pointer; }
+.thinking { display: flex; align-items: center; gap: 4px; margin-left: 36px; color: #8b978d; }
+.thinking > span:not(.thinking-label) { width: 5px; height: 5px; background: #8aaa92; border-radius: 50%; animation: pulse 1s infinite ease-in-out; }
+.thinking > span:nth-child(2) { animation-delay: .13s; }.thinking > span:nth-child(3) { animation-delay: .26s; }
+.thinking-label { font-size: 10px; margin-left: 5px; }
+.composer-area { padding: 10px clamp(20px, 8vw, 120px) 17px; width: 100%; }
+.composer { display: flex; align-items: flex-end; gap: 8px; max-width: 770px; min-height: 55px; margin: 0 auto; border: 1px solid var(--line); border-radius: 13px; background: var(--surface); padding: 7px 8px 7px 16px; box-shadow: 0 4px 20px #27352908; }
+.composer:focus-within { border-color: #b6cdbb; }
+.composer textarea { resize: none; border: 0; outline: 0; background: transparent; color: var(--ink); width: 100%; min-height: 36px; max-height: 145px; padding: 10px 0 6px; line-height: 1.45; font-size: 12px; }
+.composer textarea::placeholder { color: #a1aaa3; }
+.composer-actions { display: flex; align-items: center; gap: 4px; }
+.mic-button.listening { color: #c55344; background: #fae9e5; animation: mic-pulse 1.5s infinite; }
+.send-button { width: 35px; height: 35px; border: 0; border-radius: 10px; color: white; background: #315644; display: grid; place-items: center; cursor: pointer; flex-shrink: 0; }
+.send-button:disabled { cursor: not-allowed; background: #aab7ab; }
+.stop-button { background: #ba6756; }
+.composer-foot { max-width: 770px; margin: 8px auto 0; display: flex; align-items: center; justify-content: space-between; }
+.composer-foot span { font-size: 9px; }
+.live-status { border: 0; background: transparent; display: flex; align-items: center; gap: 5px; color: var(--muted); font-size: 9px; cursor: help; padding: 3px; }
+.error-banner { max-width: 770px; margin: 0 auto 8px; background: #fff2ee; border: 1px solid #efd0c6; color: #9c4b38; border-radius: 8px; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 11px; }
+.inline-note { max-width: 770px; margin: 0 auto 8px; color: var(--muted); font-size: 10px; }
+.site-footer { min-height: 41px; display: flex; align-items: center; justify-content: space-between; padding: 0 4.2%; border-top: 1px solid var(--line); color: #969f98; font-size: 9px; letter-spacing: 0; }
+.footer-dot { color: var(--coral); padding: 0 5px; }
+.download-page { flex: 1; padding: 26px 8% 36px; background: radial-gradient(ellipse at 81% 40%, #e1ebe0 0, transparent 35%), var(--paper); }
+.back-link { display: flex; align-items: center; gap: 8px; color: var(--muted); border: 0; padding: 5px 0; background: transparent; cursor: pointer; font-size: 11px; }
+.download-layout { max-width: 1040px; margin: 39px auto 43px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 55px; align-items: center; }
+.download-copy h1, .android-hero h1 { margin: 0; font-size: clamp(47px, 6vw, 70px); line-height: 1.02; }
+.download-copy h1 em, .android-hero h1 em { color: #62836a; font-weight: 500; }
+.download-intro { max-width: 390px; margin: 18px 0 24px; color: var(--muted); line-height: 1.8; font-size: 12px; }
+.release-card { position: relative; display: grid; grid-template-columns: 43px 1fr auto; gap: 10px; align-items: center; padding: 14px; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; box-shadow: var(--shadow); }
+.release-icon { width: 39px; height: 39px; border-radius: 10px; display: grid; place-items: center; color: #59775f; background: var(--soft-green); }
+.release-info { display: grid; gap: 5px; min-width: 0; }.release-info strong { font-size: 11px; }.release-info span { font-size: 9px; color: var(--muted); }
+.download-button { grid-column: 1 / -1; display: flex; justify-content: center; align-items: center; gap: 9px; height: 42px; border: 0; border-radius: 7px; background: #315644; color: white; cursor: pointer; font-size: 11px; font-weight: 600; }
+.download-button:disabled { background: #9eaaa0; cursor: not-allowed; }
+.release-unavailable, .download-message, .release-notes { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.download-message { color: #588061; }
+.release-notes { padding-top: 10px; border-top: 1px solid var(--line); }
+.requirements-line { margin-top: 13px; display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: 9px; }
+.requirements-line span:first-child::before { content: '✓'; color: #719177; margin-right: 5px; }
+.phone-art { min-height: 390px; position: relative; display: grid; place-items: center; }
+.phone-art::before { content: ''; position: absolute; width: 300px; height: 300px; border: 1px solid #c9d8c8; border-radius: 50%; }
+.phone-art::after { content: ''; position: absolute; width: 220px; height: 220px; border: 1px solid #d1ded0; border-radius: 50%; }
+.phone-frame { position: relative; z-index: 1; width: 191px; height: 365px; padding: 8px; border: 2px solid #46574c; border-radius: 31px; background: #23382e; box-shadow: 0 18px 38px #304a382b; transform: rotate(4deg); }
+.phone-notch { position: absolute; z-index: 2; top: 12px; left: 50%; transform: translateX(-50%); width: 57px; height: 14px; border-radius: 12px; background: #23382e; }
+.phone-screen { height: 100%; background: #f9faf6; border-radius: 23px; padding: 19px 13px; overflow: hidden; color: #27332e; }
+.phone-status { display: flex; justify-content: space-between; font-size: 8px; font-weight: 650; padding: 0 3px; }
+.phone-app-title { display: flex; align-items: center; gap: 5px; margin-top: 20px; color: #315644; font-size: 12px; font-weight: 700; }
+.phone-app-title span { width: 21px; height: 21px; border-radius: 7px; display: grid; place-items: center; background: #e2eee4; }
+.phone-greeting { margin-top: 34px; font: 21px/1.22 'Fraunces', Georgia, serif; }.phone-greeting i { color: #708872; }
+.phone-bubble { margin-top: 28px; width: 136px; padding: 9px 10px; border-radius: 9px 9px 2px 9px; background: #e5eee4; color: #68766c; font-size: 8px; line-height: 1.6; }
+.phone-input { display: flex; align-items: center; justify-content: space-between; height: 30px; margin-top: 49px; padding: 0 6px 0 9px; border: 1px solid #e2e7e1; border-radius: 9px; color: #9ba59c; font-size: 7px; }
+.phone-input span:last-child { width: 19px; height: 19px; border-radius: 6px; display: grid; place-items: center; background: #315644; color: white; }
+.phone-home { width: 47px; height: 3px; border-radius: 4px; margin: 14px auto 0; background: #87948a; }
+.phone-caption { position: absolute; z-index: 2; bottom: 0; right: 4%; display: flex; align-items: center; gap: 7px; color: #829083; font-size: 9px; }
+.install-strip { max-width: 1040px; margin: auto; padding: 17px 0; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 25px; }
+.install-strip div { display: grid; gap: 5px; }.install-strip strong { font-size: 11px; }.install-strip span { color: var(--muted); max-width: 570px; line-height: 1.6; font-size: 10px; }
+.install-strip a { white-space: nowrap; color: #52745d; font-size: 10px; text-decoration: none; display: inline-flex; gap: 6px; align-items: center; }
+.android-page { flex: 1; display: grid; grid-template-columns: 1fr 1fr; min-height: 590px; padding: 8px 8%; gap: 8%; align-items: center; background: linear-gradient(128deg, transparent 0 51%, #eef2eb 51% 100%); }
+.android-hero { position: relative; padding: 60px 0 60px 3%; overflow: hidden; }
+.android-hero > p:not(.eyebrow) { max-width: 330px; color: var(--muted); font-size: 12px; line-height: 1.8; margin: 20px 0; }
+.dark-cta { display: inline-flex; align-items: center; gap: 10px; border: 0; border-radius: 7px; padding: 12px 15px; background: #315644; color: white; cursor: pointer; font-size: 10px; }
+.android-hero-art { position: absolute; right: 6%; top: 30%; width: 125px; height: 145px; border: 1px solid #d5e0d4; border-radius: 50%; transform: rotate(-20deg); }
+.app-tile { position: absolute; top: 30px; left: 25px; width: 68px; height: 68px; border-radius: 20px 20px 20px 8px; background: #315644; color: #edf3ed; transform: rotate(20deg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; box-shadow: 0 12px 25px #31564436; }
+.app-tile span { font-size: 10px; font-weight: 600; }
+.floating-line { position: absolute; height: 1px; background: #b6cab8; transform: rotate(52deg); }.line-one { top: 6px; right: 3px; width: 60px; }.line-two { bottom: 5px; left: -22px; width: 54px; }
+.feature-list { border-top: 1px solid #dce4da; }
+.feature-heading { display: flex; justify-content: space-between; padding: 0 0 15px; color: #859287; font-size: 9px; font-weight: 650; }
+.feature-list article { display: grid; grid-template-columns: 28px 1fr 22px; gap: 13px; align-items: start; border-top: 1px solid #dce4da; padding: 18px 0; }
+.feature-number { font-size: 10px; color: #8d9a8e; padding-top: 2px; }.feature-list article > svg { margin-top: 2px; color: #809481; }
+.feature-list h2 { margin: 0; font-size: 12px; font-weight: 600; }.feature-list p { max-width: 365px; margin: 6px 0 0; color: #77847a; font-size: 10px; line-height: 1.7; }
+.feature-footer { display: flex; justify-content: space-between; align-items: center; gap: 15px; border-top: 1px solid #dce4da; padding-top: 13px; color: #89948a; font-size: 9px; }.feature-footer .text-button { display: flex; gap: 4px; align-items: center; white-space: nowrap; }
+.modal-backdrop { position: fixed; z-index: 10; inset: 0; padding: 20px; display: grid; place-items: center; background: #1f2b2580; animation: fade .15s ease both; }
+.settings-dialog { width: min(100%, 440px); max-height: min(90vh, 760px); overflow: auto; padding: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); animation: arrive .2s ease both; }
+.settings-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 19px; }.settings-header .eyebrow { margin-bottom: 5px; }.settings-header h2 { margin: 0; font: 25px 'Fraunces', Georgia, serif; }
+.field-label { display: block; margin: 15px 0 6px; font-size: 10px; font-weight: 600; }
+.settings-dialog input, .settings-dialog select { width: 100%; min-height: 39px; border: 1px solid var(--line); border-radius: 7px; background: var(--paper); color: var(--ink); padding: 8px 10px; font-size: 11px; }
+.field-help { color: var(--muted); margin: 6px 0 0; font-size: 9px; line-height: 1.6; }
+.memory-heading { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--line); }
+.memory-heading div { display: grid; gap: 4px; }.memory-heading strong { font-size: 10px; }.memory-heading span { color: var(--muted); font-size: 9px; }
+.memory-heading .text-button { display: inline-flex; align-items: center; gap: 3px; }
+.memory-list { list-style: none; padding: 0; margin: 7px 0; }
+.memory-list li { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 10px; line-height: 1.5; }
+.memory-list li span { overflow-wrap: anywhere; }
+.setting-row { min-height: 53px; border-top: 1px solid var(--line); margin-top: 13px; padding-top: 12px; display: flex; align-items: center; justify-content: space-between; }
+.setting-row div { display: grid; gap: 4px; }.setting-row strong { font-size: 10px; font-weight: 600; }.setting-row span { color: var(--muted); font-size: 9px; }
+.toggle { width: 37px; height: 21px; padding: 2px; border: 0; border-radius: 12px; background: #c4cbc5; cursor: pointer; transition: background .15s; }.toggle span { display: block; width: 17px; height: 17px; background: white; border-radius: 50%; transition: transform .15s; }.toggle.enabled { background: #55785d; }.toggle.enabled span { transform: translateX(16px); }
+.settings-footer { margin-top: 12px; padding-top: 15px; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
+.settings-footer > span { font-size: 9px; }.save-button { border: 0; border-radius: 7px; padding: 10px 13px; background: #315644; color: white; cursor: pointer; font-size: 10px; }
+@keyframes arrive { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pulse { 50% { opacity: .35; transform: translateY(-2px); } }
+@keyframes mic-pulse { 50% { box-shadow: 0 0 0 5px #c5534422; } }
+
+@media (max-width: 760px) {
+  .topbar { height: 62px; gap: 22px; padding: 0 16px; }.brand-name { font-size: 19px; }.brand-mark { width: 30px; height: 30px; }
+  .primary-nav { gap: 15px; }.nav-link { font-size: 10px; }.topbar-actions { gap: 4px; }.privacy-indicator { display: none; }
+  .workspace { display: flex; min-height: 0; max-height: none; flex: 1; }.conversation-rail { display: none; }.chat-column { min-height: calc(100vh - 104px); width: 100%; }
+  .chat-header { height: 62px; padding: 0 16px; }.language-chip { font-size: 9px; }.message-scroll { padding: 20px 16px; }.welcome-block { margin: max(45px, 10vh) auto 10px; }.welcome-block h2 { font-size: 37px; }
+  .composer-area { padding: 8px 14px 14px; }.site-footer { padding: 0 14px; }.site-footer span:last-child { display: none; }
+  .download-page { padding: 20px 20px 26px; }.download-layout { margin: 24px auto 25px; grid-template-columns: 1fr; gap: 4px; }.download-copy h1, .android-hero h1 { font-size: 55px; }.phone-art { min-height: 330px; }.phone-frame { transform: scale(.86) rotate(4deg); }.phone-art::before { width: 255px; height: 255px; }.phone-art::after { width: 188px; height: 188px; }.install-strip { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .android-page { padding: 24px 22px 30px; display: block; background: linear-gradient(165deg, transparent 0 49%, #eef2eb 49% 100%); }.android-hero { padding: 35px 0 40px; min-height: 320px; }.android-hero-art { right: 8%; top: 38%; transform: scale(.82) rotate(-20deg); }.feature-list { padding-top: 12px; }.feature-footer { flex-wrap: wrap; }
+}
+
+@media (max-width: 410px) {
+  .topbar { gap: 12px; padding: 0 11px; }.brand { gap: 6px; }.brand-name { font-size: 17px; }.brand-mark { width: 27px; height: 27px; }.primary-nav { gap: 9px; }.nav-link { font-size: 9px; }.settings-trigger { width: 31px; }
+  .chat-tools .language-chip { max-width: 106px; overflow: hidden; white-space: nowrap; }.chat-tools { gap: 2px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
